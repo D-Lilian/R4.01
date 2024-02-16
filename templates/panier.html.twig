@@ -29,6 +29,7 @@
 						<div class="entry-content">
 							<div class="woocommerce">
 								<form
+									id="panierForm"
 									class="woocommerce-cart-form"							
 									action="/recalculerPanier"
 									name="panier" method="post">
@@ -44,9 +45,9 @@
 											</tr>
 										</thead>
 										<tbody>
-										{% for lignePanier in panier.lignesPanier %}
+										{% for lignePanier in panier.lignesPanier %}{% set random = random() %}
 											<tr class="woocommerce-cart-form__cart-item cart_item">
-												<td class="product-remove"><a class="remove"
+												<td class="product-remove"><a id="remove_{{random}}" class="remove"
 													title="Remove this item"
 													href="/supprimerLigne?id={{ lignePanier.article.id }}">×</a>
 												</td>
@@ -55,9 +56,9 @@
 													height="145" alt="hoodie_4_front"
 													src="{{ lignePanier.article.image }}"></td>
 												<td class="product-name">{{ lignePanier.article.titre }}</td>
-												<td class="product-price"><span class="amount">{{ lignePanier.prixUnitaire }}€</span></td>
+												<td class="product-price"><span id="amount_u_{{random}}" class="amount">{{ lignePanier.prixUnitaire }}€</span></td>
 												<td class="product-quantity">
-													<div class="quantity">{% set random = random() %}
+													<div class="quantity">
 														<label class="screen-reader-text" for="quantity_{{ random }}">Quantity</label>
 														<input id="quantity_{{ random }}" class="input-text qty text" type="number"
 															 size="4" title="Qty" value="{{ lignePanier.quantite }}"
@@ -65,7 +66,7 @@
 															min="1" step="1">
 													</div>
 												</td>
-												<td class="product-subtotal"><span class="amount">{{ lignePanier.prixTotal }}€</span></td>
+												<td class="product-subtotal"><span id="amount_{{ random }}" class="amount total_ligne">{{ lignePanier.prixTotal }}€</span></td>
 											</tr>
 											{% endfor %}
 											<tr>
@@ -83,7 +84,7 @@
 											<tbody>
 												<tr class="cart-subtotal">
 													<th>Sous-total</th>
-													<td><span class="amount">{{ panier.total }}€</span></td>
+													<td><span id="totalSansCharge" class="amount">{{ panier.total }}€</span></td>
 												</tr>
 												<tr class="shipping">
 													<th>Frais de port</th>
@@ -91,14 +92,14 @@
 												</tr>
 												<tr class="order-total">
 													<th>Total</th>
-													<td><strong> <span class="amount">{{ panier.total }}€</span>
+													<td><strong> <span id="totalAvecCharge" class="amount">{{ panier.total }}€</span>
 													</strong></td>
 												</tr>
 											</tbody>
 										</table>
 										<div class="wc-proceed-to-checkout">
 											<a
-												href="/commanderPanier"
+												id="validerPanier"
 												class="checkout-button button alt wc-forward">Effectuer la
 												commande</a>
 										</div>
@@ -108,4 +109,7 @@
 						</div>
 					</div><!-- .col-full -->
 				</div><!-- #content -->
+{% endblock %}
+{% block javascripts %}
+	<script type="text/javascript" src="/js/panier.js"></script>
 {% endblock %}

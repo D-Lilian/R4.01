@@ -34,7 +34,9 @@ class AppFixtures extends Fixture
 			//$keywords = 'Harry Potter' ;
 
 			$formattedResponse = $ebay->findItemsAdvanced($keywords, 6);
+
 			file_put_contents("ebayResponse.xml",$formattedResponse) ;
+			
 			$xml = simplexml_load_string($formattedResponse);
 
 			if ($xml !== false) {

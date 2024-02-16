@@ -87,9 +87,7 @@ class PanierController extends AbstractController
 		}
 		$this->panier->recalculer() ;
 		$session->set("panier", $this->panier) ;
-		return $this->render('panier.html.twig', [
-            'panier' => $this->panier,
-        ]);
+		return $this->redirectToRoute('commanderPanier');
     }
 	 
     #[Route('/accederAuPanier', name: 'accederAuPanier')]
