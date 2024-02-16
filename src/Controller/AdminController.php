@@ -32,6 +32,12 @@ class AdminController extends AbstractController
 		$this->logger = $logger;
 	}
 	
+	#[Route('/admin', name: 'adminCategories')]
+    public function adminCategoriesAction(Request $request): Response
+    {
+		return $this->render('admin.categories.html.twig');
+    }
+
     #[Route('/admin/musiques', name: 'adminMusiques')]
     public function adminMusiquesAction(Request $request): Response
     {
