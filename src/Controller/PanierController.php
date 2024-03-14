@@ -41,9 +41,7 @@ class PanierController extends AbstractController
 		$article = $this->entityManager->getReference("App\Entity\Catalogue\Article", $request->query->get("id"));
 		$this->panier->ajouterLigne($article) ;
 		$session->set("panier", $this->panier) ;
-		return $this->render('panier.html.twig', [
-            'panier' => $this->panier,
-        ]);
+		return $this->redirectToRoute("accederAuPanier");
     }
 	
     #[Route('/supprimerLigne', name: 'supprimerLigne')]
@@ -58,6 +56,7 @@ class PanierController extends AbstractController
 			$this->panier = new Panier() ;
 		$this->panier->supprimerLigne($request->query->get("id")) ;
 		$session->set("panier", $this->panier) ;
+		
 		if (sizeof($this->panier->getLignesPanier()) === 0)
 			return $this->render('panier.vide.html.twig');
 		else
@@ -87,7 +86,9 @@ class PanierController extends AbstractController
 		}
 		$this->panier->recalculer() ;
 		$session->set("panier", $this->panier) ;
-		return $this->redirectToRoute('commanderPanier');
+		//return $this->redirectToRoute('commanderPanier');
+
+		return new Response();
     }
 	 
     #[Route('/accederAuPanier', name: 'accederAuPanier')]
@@ -111,6 +112,13 @@ class PanierController extends AbstractController
     #[Route('/commanderPanier', name: 'commanderPanier')]
     public function commanderPanierAction(Request $request): Response
     {
+		//vidage du panier
+		$session = $request->getSession() ;
+		if (!$session->isStarted())
+			$this -> redirectToRoute("accederAuPanier");
+		if ($session->has("panier")) {
+			$session->set("panier", new Panier()) ;
+		}
 		return $this->render('commande.html.twig');
     }
 }

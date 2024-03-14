@@ -21,6 +21,15 @@
 						</div>
 					</nav>
 				</header>
+				<div id="popup">
+					<div>ete vous sur de vouloir le suprimmer ?</div>
+					<button id="popupNon">
+						non
+					</button>
+					<button id="popupOui">
+						oui
+					</button>
+				</div>
 				<div id="content" class="site-content">
 					<div class="col-full">
 						<header class="entry-header">
@@ -45,34 +54,34 @@
 											</tr>
 										</thead>
 										<tbody>
-										{% for lignePanier in panier.lignesPanier %}{% set random = random() %}
+										{% for lignePanier in panier.lignesPanier %}
 											<tr class="woocommerce-cart-form__cart-item cart_item">
-												<td class="product-remove"><a id="remove_{{random}}" class="remove"
+												<td class="product-remove"><a id="remove_{{lignePanier.article.id}}" class="remove"
 													title="Remove this item"
-													href="/supprimerLigne?id={{ lignePanier.article.id }}">×</a>
+													<!--href="/supprimerLigne?id={{ lignePanier.article.id }}"--> >×</a>
 												</td>
 												<td class="product-thumbnail"><img
 													class="attachment-shop_thumbnail wp-post-image" width="145"
 													height="145" alt="hoodie_4_front"
 													src="{{ lignePanier.article.image }}"></td>
 												<td class="product-name">{{ lignePanier.article.titre }}</td>
-												<td class="product-price"><span id="amount_u_{{random}}" class="amount">{{ lignePanier.prixUnitaire }}€</span></td>
+												<td class="product-price"><span id="amount_u_{{lignePanier.article.id}}" class="amount">{{ lignePanier.prixUnitaire }}€</span></td>
 												<td class="product-quantity">
 													<div class="quantity">
-														<label class="screen-reader-text" for="quantity_{{ random }}">Quantity</label>
-														<input id="quantity_{{ random }}" class="input-text qty text" type="number"
+														<label class="screen-reader-text" for="quantity_{{ lignePanier.article.id }}">Quantity</label>
+														<input id="quantity_{{ lignePanier.article.id }}" class="input-text qty text" type="number"
 															 size="4" title="Qty" value="{{ lignePanier.quantite }}"
 															name="cart[{{ lignePanier.article.id }}][qty]"
-															min="1" step="1">
+															min="0" step="1">
 													</div>
 												</td>
-												<td class="product-subtotal"><span id="amount_{{ random }}" class="amount total_ligne">{{ lignePanier.prixTotal }}€</span></td>
+												<td class="product-subtotal"><span id="amount_{{ lignePanier.article.id }}" class="amount total_ligne">{{ lignePanier.prixTotal }}€</span></td>
 											</tr>
 											{% endfor %}
-											<tr>
+											<!--<tr>
 												<td class="actions" colspan="6"><input class="button"
 													type="submit" value="Mise à jour du panier" name="update_cart" /></td>
-											</tr>
+											</tr>-->
 										</tbody>
 									</table>
 								</form>
@@ -100,6 +109,7 @@
 										<div class="wc-proceed-to-checkout">
 											<a
 												id="validerPanier"
+												href="/commanderPanier"
 												class="checkout-button button alt wc-forward">Effectuer la
 												commande</a>
 										</div>

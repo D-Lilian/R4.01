@@ -1,33 +1,44 @@
 const inputs = document.querySelectorAll('input.qty');
 
+var form = document.getElementById("panierForm");
+
 inputs.forEach(input =>  {
     input.addEventListener('input', function(event) {
         var id = event.target.id;
 
         var quant = event.target.value;
 
-        var nbIdentification = id.substring(id.indexOf("_")+1);
+        var nbIdentification = id.substring(id.indexOf("_") + 1);
 
-        var amountUElem = document.getElementById("amount_u_"+nbIdentification);
+        if(quant == 0) {
 
-        var amountUString = amountUElem.innerHTML.substring(0, amountUElem.innerHTML.length - 1); // enleve le €
+            document.getElementById("remove_" + nbIdentification).click();
 
-        var prixU = parseFloat(amountUString.replace(",", "."));
+        } else {
 
-        var totalPrixArt = document.getElementById("amount_" + nbIdentification);
+            var amountUElem = document.getElementById("amount_u_" + nbIdentification);
 
-        totalPrixArt.innerHTML = (prixU * quant).toFixed(2) + " \u20AC";
+            var amountUString = amountUElem.innerHTML.substring(0, amountUElem.innerHTML.length - 1);// enleve le ï¿½
 
+            var prixU = parseFloat(amountUString.replace(",", "."));
 
+            var totalPrixArt = document.getElementById("amount_" + nbIdentification);
+
+            totalPrixArt.innerHTML = (prixU * quant).toFixed(2) + " \u20AC";
+
+            var formData = new FormData(form);
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", form.action, true);
+            xhr.onreadystatechange = function() {
+                if(xhr.readyState === 4 && xhr.status === 200) {
+                    console.log("recalculer");
+                }
+            };
+            xhr.send(formData);
+        }
 
         updatePrixTotal();
     });
-});
-
-const form = document.getElementById("validerPanier");
-
-form.addEventListener("click", function () {
-    document.getElementById("panierForm").submit();
 });
 
 function updatePrixTotal() {
@@ -41,9 +52,9 @@ function updatePrixTotal() {
 
     var livraison = 0;
 
-    arts.forEach(art => {
+    arts.forEach(art =>  {
 
-        var amountUString = art.innerHTML.substring(0, art.innerHTML.length - 1); // enleve le €
+        var amountUString = art.innerHTML.substring(0, art.innerHTML.length - 1);// enleve le ï¿½
 
         var prixAr = parseFloat(amountUString.replace(",", "."));
 
@@ -53,6 +64,34 @@ function updatePrixTotal() {
     ttsc = ttsc.toFixed(2);
 
     ttscElem.innerHTML = ttsc + " \u20AC";
-    ttacElem.innerHTML = (ttsc + livraison).toFixed(2) + " \u20AC";
+    ttacElem.innerHTML = ((ttsc + livraison) * 1.0).toFixed(2) + " \u20AC";
 }
 
+
+const removes = document.querySelectorAll("a.remove");
+
+removes.forEach(remove =>  {
+    remove.addEventListener("click", function(event) {
+
+        var id = event.target.id;
+
+        var quant = event.target.value;
+
+        var nbIdentification = id.substring(id.indexOf("_") + 1);
+
+        document.getElementById("popupOui").setAttribute('onClick', 'window.location = "/supprimerLigne?id=' + nbIdentification + '"');
+
+        document.getElementById("popupNon").addEventListener("click", function(event) {
+            const nbIdentificationBc = nbIdentification;
+            document.getElementById("quantity_" + nbIdentificationBc).value = 1;
+
+            hidePopUp();
+        });
+
+        document.getElementById("popup").style.display = "block";
+    });
+});
+
+function hidePopUp() {
+    document.getElementById("popup").style.display = "none";
+}
