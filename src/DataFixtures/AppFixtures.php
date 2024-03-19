@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Admin;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
@@ -142,6 +143,16 @@ class AppFixtures extends Fixture
 			$entityLivre->setDisponibilite(1);
 			$entityLivre->setImage("/images/719FffADQAL._SL140_.jpg");
 			$manager->persist($entityLivre);
+			$manager->flush();
+		}
+
+		if (count($manager->getRepository("App\Entity\Admin")->findAll()) == 0) {
+			$entityAdmin = new Admin();
+			//$entityAdmin->setId(0);
+			$entityAdmin->setUsername("root");	
+			$entityAdmin->setPassword("\$2y\$13\$W4BNB29zUfRR.W0WXPa3EeNQ04T/gDIHJL/LCBlf4O4orbL.JN106");
+			$entityAdmin->setRoles(["ROLE_ADMIN"]);
+			$manager->persist($entityAdmin);
 			$manager->flush();
 		}
     }
