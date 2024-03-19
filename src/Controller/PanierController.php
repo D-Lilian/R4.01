@@ -60,11 +60,9 @@ class PanierController extends AbstractController
 		$session->set("panier", $this->panier) ;
 		
 		if (sizeof($this->panier->getLignesPanier()) === 0)
-			return $this->render('panier.vide.html.twig');
+			return new Response("panier vide");
 		else
-			return $this->render('panier.html.twig', [
-				'panier' => $this->panier,
-			]);
+			return new Response("supression de ".$request->query->get("id"));
     }
 	
     #[Route('/recalculerPanier', name: 'recalculerPanier', methods: ["GET", "POST"])]

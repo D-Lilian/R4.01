@@ -79,11 +79,34 @@ removes.forEach(remove =>  {
 
         var nbIdentification = id.substring(id.indexOf("_") + 1);
 
-        document.getElementById("popupOui").setAttribute('onClick', 'window.location = "/supprimerLigne?id=' + nbIdentification + '"');
+        document.getElementById("popupOui").addEventListener("click",(event)=> {
+            
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET","/supprimerLigne?id="+nbIdentification);
+
+            xhr.onreadystatechange = function() {
+                if(xhr.readyState === 4 && xhr.status === 200) {
+                    console.log(xhr.responseText);
+
+                    if(xhr.responseText == "panier vide") {
+                        window.location = "/accederAuPanier"
+                    }else {
+                        document.getElementById("tr_"+nbIdentification).remove();
+                    }
+                }
+            };
+
+            xhr.send();
+
+            hidePopUp();
+        });
+
+
+        //.setAttribute('onClick', 'window.location = "/supprimerLigne?id=' + nbIdentification + '"');
 
         document.getElementById("popupNon").addEventListener("click", function(event) {
             const nbIdentificationBc = nbIdentification;
-            document.getElementById("quantity_" + nbIdentificationBc).value = 1;
+            document.getElementById("quantity_" + nbIdentificationBc).value = 1;         
 
             hidePopUp();
         });

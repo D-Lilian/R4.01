@@ -55,7 +55,7 @@
 										</thead>
 										<tbody>
 										{% for lignePanier in panier.lignesPanier %}
-											<tr class="woocommerce-cart-form__cart-item cart_item">
+											<tr id="tr_{{ lignePanier.article.id }}" class="woocommerce-cart-form__cart-item cart_item">
 												<td class="product-remove"><a id="remove_{{lignePanier.article.id}}" class="remove"
 													title="Remove this item"
 													<!--href="/supprimerLigne?id={{ lignePanier.article.id }}"--> >×</a>
