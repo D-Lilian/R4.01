@@ -10,6 +10,7 @@ articles.forEach(art =>  {
 
         var xhr = new XMLHttpRequest();
         xhr.open("GET", event.target.getAttribute("href") , true);
+        document.getElementById("popupChargement").style.display = "block";
 
         xhr.onreadystatechange = function() {
             if(xhr.readyState === 4 && xhr.status === 200) {
@@ -18,6 +19,8 @@ articles.forEach(art =>  {
                 popupI.style.display = "block";
 
                 document.getElementById("popupContent").innerHTML = xhr.responseText;
+                
+                document.getElementById("popupChargement").style.display = "none";
 
                 setTimeout(hidePopUp, 5000);
             }
