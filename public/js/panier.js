@@ -31,7 +31,7 @@ inputs.forEach(input =>  {
             xhr.open("POST", form.action, true);
             xhr.onreadystatechange = function() {
                 if(xhr.readyState === 4 && xhr.status === 200) {
-                    console.log("recalculer");
+                    console.log(xhr.responseText);
                 }
             };
             xhr.send(formData);

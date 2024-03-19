@@ -41,7 +41,9 @@ class PanierController extends AbstractController
 		$article = $this->entityManager->getReference("App\Entity\Catalogue\Article", $request->query->get("id"));
 		$this->panier->ajouterLigne($article) ;
 		$session->set("panier", $this->panier) ;
-		return $this->redirectToRoute("accederAuPanier");
+		//return $this->redirectToRoute("accederAuPanier");
+
+		return new Response("Article ".$article->getTitre()." a été ajouter aux panier");
     }
 	
     #[Route('/supprimerLigne', name: 'supprimerLigne')]
@@ -88,7 +90,7 @@ class PanierController extends AbstractController
 		$session->set("panier", $this->panier) ;
 		//return $this->redirectToRoute('commanderPanier');
 
-		return new Response();
+		return new Response("recalculer");
     }
 	 
     #[Route('/accederAuPanier', name: 'accederAuPanier')]

@@ -2603,6 +2603,22 @@ button.menu-toggle:after {
     box-shadow: 5px 5px 10px 10px #000;
 }
 
+#popupInfo {
+    position: fixed;
+    width: 33%;
+    top: 99%;
+    left: 99%;
+    transform: translate(-100%, -100%);
+    z-index: 99999999999999999999999999999999999;
+    display: none;
+    background-color: #358b32;
+    padding: 2%;
+    border-radius: 20px;
+    border: 3px #000;
+
+    color: #fff;
+}
+
 #popup button {
     width: 49%;
 }

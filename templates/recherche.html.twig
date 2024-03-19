@@ -24,6 +24,9 @@
 						</div>
 					</nav>
 				</header>
+				<div id="popupInfo">
+					<div id="popupContent"></div>
+				</div>
 				<div id="content" class="site-content" tabindex="-1">
 					<div class="col-full">
 						<div id="primary">
@@ -42,18 +45,19 @@
 									<li class="product type-product">
 											{% endif %}
 										{% endif %}
-									<a class="woocommerce-LoopProduct-link woocommerce-loop-product__link"
+									<a class="woocommerce-LoopProduct-link woocommerce-loop-product__link add_cart_for_js {{ article.id }}"
 										href="/ajouterLigne?id={{ article.id }}"> <img
+											href="/ajouterLigne?id={{ article.id }}"
 											src="{{ article.image }}"
 											class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail" alt="poster_2_up"
 											/>
-											<h3>{{ article.titre }}</h3> <span class="price"><ins>
-													<span class="amount">{{ article.prix }} €</span>
+											<h3 href="/ajouterLigne?id={{ article.id }}">{{ article.titre }}</h3> <span class="price"><ins>
+													<span href="/ajouterLigne?id={{ article.id }}" class="amount">{{ article.prix }} €</span>
 												</ins></span>
 
 									</a> <a
 										href="/ajouterLigne?id={{ article.id }}"
-										class="button product_type_simple add_to_cart_button">Mettre
+										class="button product_type_simple add_to_cart_button add_cart_for_js {{ article.id }}">Mettre
 											dans le panier</a>
 										{% if article.pistes is defined %}
 											{% if article.pistes|length > 0 %}
@@ -99,4 +103,5 @@
 				<script type="text/javascript" src="/js/jplayer-2.9.2/add-on/jplayer.playlist.min.js"></script>
 				<script type="text/javascript" src="/js/audio.js"></script>
 				<script type="text/javascript" src="/js/jplayer-2.9.2/add-on/jquery.jplayer.inspector.js"></script>
+				<script type="text/javascript" src="/js/recherche.js"></script>
 {% endblock %}
